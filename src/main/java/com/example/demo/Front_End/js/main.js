@@ -120,3 +120,19 @@ $("#updateJobBtn").click(function () {
         }
     });
 });
+
+function deleteJob(id) {
+    if (!confirm("Are you sure you want to delete this job?")) return;
+
+    $.ajax({
+        url: `http://localhost:8080/api/v2/job/delete/${id}`,
+        method: "DELETE",
+        success: function () {
+            alert("Job deleted!");
+            loadJobs();
+        },
+        error: function () {
+            alert("Error deleting job");
+        }
+    });
+}

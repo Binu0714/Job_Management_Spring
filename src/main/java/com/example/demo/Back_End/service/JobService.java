@@ -10,4 +10,6 @@ public interface JobService {
     void updateJob(JobDto jobDto);
 
     JobDto getJobById(int id);
+
+    void deleteJobById(Integer id);
 }

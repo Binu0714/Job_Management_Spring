@@ -39,4 +39,9 @@ public class JobServiceImpl implements JobService {
                 .orElseThrow(() -> new RuntimeException("Job not found"));
         return modelMapper.map(job, JobDto.class);
     }
+
+    @Override
+    public void deleteJobById(Integer id) {
+        jobRepository.deleteById(id);
+    }
 }
