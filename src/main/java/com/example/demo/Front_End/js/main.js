@@ -1,3 +1,6 @@
+$(document).ready(function () {
+    loadJobs();
+});
 
 $("#saveJobBtn").click(function () {
     let jobTitle = $("#jobTitle").val();
@@ -30,3 +33,39 @@ $("#saveJobBtn").click(function () {
         }
     });
 });
+
+
+function loadJobs() {
+    $.ajax({
+        url: "http://localhost:8080/api/v2/job/get",
+        method: "GET",
+        success: function (jobs) {
+            let tbody = $("#jobsTableBody");
+            tbody.empty();
+
+            jobs.forEach(function (job, index) {
+                let row = `
+                    <tr>
+                        <td>${job.id}</td>
+                        <td>${job.jobTitle}</td>
+                        <td>${job.company}</td>
+                        <td>${job.location}</td>
+                        <td>${job.type}</td>
+                        <td>${job.status}</td>
+                        <td>
+                            <button class="btn btn-outline-primary" onclick="editStatus(${job.id})">Deactivate</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editJobModal" onclick="editJob(${job.id})">Edit</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteJob(${job.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+                tbody.append(row);
+            });
+        },
+        error: function () {
+            alert("Failed to load job data.");
+        }
+    });
+}
