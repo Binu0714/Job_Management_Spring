@@ -69,3 +69,54 @@ function loadJobs() {
         }
     });
 }
+
+function editJob(id) {
+    $.ajax({
+        url: `http://localhost:8080/api/v2/job/get/${id}`,
+        method: "GET",
+        success: function (job) {
+            $("#editJobId").val(job.id);
+            $("#editJobTitle").val(job.jobTitle);
+            $("#editCompanyName").val(job.company);
+            $("#editJobLocation").val(job.location);
+            $("#editJobType").val(job.type);
+            $("#editJobDescription").val(job.jobDescription);
+        },
+        error: function () {
+            alert("Failed to load job data for editing.");
+        }
+    });
+}
+
+$("#updateJobBtn").click(function () {
+    let jobId = $("#editJobId").val();
+    let jobTitle = $("#editJobTitle").val();
+    let companyName = $("#editCompanyName").val();
+    let jobLocation = $("#editJobLocation").val();
+    let jobType = $("#editJobType").val();
+    let jobDescription = $("#editJobDescription").val();
+    let status = "Active";
+
+    let job = {
+        jobTitle: jobTitle,
+        company: companyName,
+        location: jobLocation,
+        type: jobType,
+        jobDescription: jobDescription,
+        status: status
+    };
+
+    $.ajax({
+        url: `http://localhost:8080/api/v2/job/update/${jobId}`,
+        method: "Put",
+        contentType: "application/json",
+        data: JSON.stringify(job),
+        success: function (response) {
+            alert("Job updated successfully!");
+            location.reload();
+        },
+        error: function (xhr, status, error) {
+            alert("Error updating job: " + error);
+        }
+    });
+});

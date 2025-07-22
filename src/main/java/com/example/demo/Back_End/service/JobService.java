@@ -7,4 +7,7 @@ import java.util.List;
 public interface JobService {
     void saveJob(JobDto jobDto);
     List<JobDto> getAllJobs();
+    void updateJob(JobDto jobDto);
+
+    JobDto getJobById(int id);
 }

@@ -27,4 +27,16 @@ public class JobServiceImpl implements JobService {
         List<Job> allJobs = jobRepository.findAll();
         return modelMapper.map(allJobs,new TypeToken<List<JobDto>>(){}.getType());
     }
+
+    @Override
+    public void updateJob(JobDto jobDto) {
+        jobRepository.save(modelMapper.map(jobDto, Job.class));
+    }
+
+    @Override
+    public JobDto getJobById(int id) {
+        Job job = jobRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Job not found"));
+        return modelMapper.map(job, JobDto.class);
+    }
 }
