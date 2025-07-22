@@ -39,6 +39,10 @@
                     <!-- Populated via script.js -->
                     </tbody>
                 </table>
+                <div class="d-flex justify-content-between mt-2">
+                    <button id="prevPageBtn" class="btn btn-success" disabled>Previous</button>
+                    <button id="nextPageBtn" class="btn btn-success">Next</button>
+                </div>
             </div>
         </div>
     </div>
