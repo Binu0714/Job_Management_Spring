@@ -1,4 +1,9 @@
 package com.example.demo.Back_End.repository;
 
-public interface JobRepository {
+import com.example.demo.Back_End.entity.Job;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface JobRepository extends JpaRepository<Job, Integer> {
 }
