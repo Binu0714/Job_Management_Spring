@@ -11,4 +11,5 @@ public interface JobService {
     JobDto getJobById(int id);
     void deleteJobById(Integer id);
     void changeJobStatus(String id);
+    List<JobDto> getAllJobsByKeyword(String keyword);
 }

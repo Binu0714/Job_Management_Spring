@@ -166,3 +166,46 @@ function editStatus(id) {
         }
     });
 }
+
+$('#searchInput').on('keyup', function () {
+    let keyword = $(this).val();
+
+    if (keyword === "") {
+        $("#jobsTableBody").empty();
+        loadJobs();
+        return;
+    }
+
+    $.ajax({
+        url: `http://localhost:8080/api/v2/job/search/${keyword}`,
+        method: "GET",
+        success: function (jobs) {
+            $("#jobsTableBody").empty();
+
+            jobs.forEach(function (job) {
+                let row = `
+                    <tr>
+                        <td>${job.id}</td>
+                        <td>${job.jobTitle}</td>
+                        <td>${job.company}</td>
+                        <td>${job.location}</td>
+                        <td>${job.type}</td>
+                        <td>${job.status}</td>
+                        <td>
+                            <button class="btn btn-outline-primary" onclick="editStatus(${job.id})">Deactivate</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editJobModal" onclick="editJob(${job.id})">Edit</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteJob(${job.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+
+                $("#jobsTableBody").append(row);
+            });
+        },
+        error: function () {
+            alert("Error searching jobs.");
+        }
+    });
+});
