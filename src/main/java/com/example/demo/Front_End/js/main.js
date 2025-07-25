@@ -136,3 +136,33 @@ function deleteJob(id) {
         }
     });
 }
+
+function editStatus(id) {
+    $.ajax({
+        url: `http://localhost:8080/api/v2/job/get/${id}`,
+        method: "GET",
+        success: function (job) {
+            if (job.status === "Deactivate"){
+                alert("Unable to Continue.This job is already deactivated.");
+                return;
+            }
+
+            if (!confirm("Are you sure you want to deactivate this job?")) return;
+
+            $.ajax({
+                url: `http://localhost:8080/api/v2/job/status/${id}`,
+                method: "PATCH",
+                success: function () {
+                    alert("Job deactivated!");
+                    loadJobs();
+                },
+                error: function () {
+                    alert("Error deactivating job");
+                }
+            });
+        },
+        error: function () {
+            alert("Failed to load job data for editing.");
+        }
+    });
+}

@@ -41,4 +41,9 @@ public class JobController {
     public void deleteJob(@PathVariable Integer id){
         jobService.deleteJobById(id);
     }
+
+    @PatchMapping("status/{id}")
+    public void changeJobStatus(@PathVariable String id) {
+        jobService.changeJobStatus(id);
+    }
 }

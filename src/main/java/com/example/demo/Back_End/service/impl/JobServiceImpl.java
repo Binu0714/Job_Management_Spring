@@ -44,4 +44,9 @@ public class JobServiceImpl implements JobService {
     public void deleteJobById(Integer id) {
         jobRepository.deleteById(id);
     }
+
+    @Override
+    public void changeJobStatus(String id) {
+        jobRepository.changeJobStatus(id);
+    }
 }

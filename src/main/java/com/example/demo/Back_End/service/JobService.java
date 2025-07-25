@@ -8,8 +8,7 @@ public interface JobService {
     void saveJob(JobDto jobDto);
     List<JobDto> getAllJobs();
     void updateJob(JobDto jobDto);
-
     JobDto getJobById(int id);
-
     void deleteJobById(Integer id);
+    void changeJobStatus(String id);
 }
