@@ -7,9 +7,12 @@ import com.example.demo.Back_End.service.JobService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -56,4 +59,12 @@ public class JobServiceImpl implements JobService {
         return modelMapper.map(allJobs,new TypeToken<List<JobDto>>(){}.getType());
     }
 
+    @Override
+    public List<JobDto> getJobsByPage(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return jobRepository.findAll(pageable)
+                .stream()
+                .map(job -> modelMapper.map(job, JobDto.class))
+                .collect(Collectors.toList());
+    }
 }

@@ -51,4 +51,11 @@ public class JobController {
     public List<JobDto> searchJob(@PathVariable("keyword") String keyword) {
         return jobService.getAllJobsByKeyword(keyword);
     }
+
+    @GetMapping("/get-paged")
+    public List<JobDto> getJobsByPage(@RequestParam int page,
+                                      @RequestParam int size) {
+        return jobService.getJobsByPage(page, size);
+    }
+
 }

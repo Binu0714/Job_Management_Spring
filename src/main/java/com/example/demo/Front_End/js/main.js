@@ -1,5 +1,18 @@
 $(document).ready(function () {
     loadJobs();
+    loadJob(currentPage, pageSize);
+
+    $("#nextPageBtn").click(function () {
+        currentPage++;
+        loadJob(currentPage, pageSize);
+    });
+
+    $("#prevPageBtn").click(function () {
+        if (currentPage > 0) {
+            currentPage--;
+            loadJob(currentPage, pageSize);
+        }
+    });
 });
 
 $("#saveJobBtn").click(function () {
@@ -129,7 +142,7 @@ function deleteJob(id) {
         method: "DELETE",
         success: function () {
             alert("Job deleted!");
-            loadJobs();
+            loadJob(currentPage, pageSize);
         },
         error: function () {
             alert("Error deleting job");
@@ -154,7 +167,7 @@ function editStatus(id) {
                 method: "PATCH",
                 success: function () {
                     alert("Job deactivated!");
-                    loadJobs();
+                    loadJob(currentPage, pageSize);
                 },
                 error: function () {
                     alert("Error deactivating job");
@@ -172,7 +185,7 @@ $('#searchInput').on('keyup', function () {
 
     if (keyword === "") {
         $("#jobsTableBody").empty();
-        loadJobs();
+        loadJob(currentPage, pageSize);
         return;
     }
 
@@ -209,3 +222,60 @@ $('#searchInput').on('keyup', function () {
         }
     });
 });
+
+let currentPage = 0;
+let pageSize = 5;
+
+function loadJob(page, size) {
+    $.ajax({
+        url: `http://localhost:8080/api/v2/job/get-paged?page=${page}&size=${size}`,
+        method: "GET",
+        success: function (jobs) {
+            let tbody = $("#jobsTableBody");
+            tbody.empty();
+
+            if (jobs.length === 0) {
+                $("#nextPageBtn").prop("disabled", true);
+
+                if (page > 0) {
+                    currentPage--;
+                }
+                updatePageInfo();
+                return;
+            }
+
+            $("#prevPageBtn").prop("disabled", currentPage === 0);
+
+            $("#nextPageBtn").prop("disabled", jobs.length < size);
+
+            jobs.forEach(function (job) {
+                let row = `
+                    <tr>
+                        <td>${job.id}</td>
+                        <td>${job.jobTitle}</td>
+                        <td>${job.company}</td>
+                        <td>${job.location}</td>
+                        <td>${job.type}</td>
+                        <td>${job.status}</td>
+                        <td>
+                            <button class="btn btn-outline-primary" onclick="editStatus(${job.id})">Deactivate</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editJobModal" onclick="editJob(${job.id})">Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteJob(${job.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+                tbody.append(row);
+            });
+            updatePageInfo();
+        },
+        error: function () {
+            alert("Failed to load jobs.");
+        }
+    });
+}
+
+function updatePageInfo() {
+    $("#pageInfo").text(`Page ${currentPage + 1}`);
+}
