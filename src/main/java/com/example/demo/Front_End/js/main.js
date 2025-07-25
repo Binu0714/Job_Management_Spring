@@ -126,6 +126,7 @@ $("#updateJobBtn").click(function () {
         data: JSON.stringify(job),
         success: function (response) {
             alert("Job updated successfully!");
+            loadJob(currentPage, pageSize);
             location.reload();
         },
         error: function (xhr, status, error) {
