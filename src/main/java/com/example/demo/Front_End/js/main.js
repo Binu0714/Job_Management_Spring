@@ -55,7 +55,7 @@ function loadJobs() {
             let tbody = $("#jobsTableBody");
             tbody.empty();
 
-            jobs.forEach(function (job, index) {
+            jobs.data.forEach(function (job, index) {
                 let row = `
                     <tr>
                         <td>${job.id}</td>
@@ -195,7 +195,7 @@ $('#searchInput').on('keyup', function () {
         success: function (jobs) {
             $("#jobsTableBody").empty();
 
-            jobs.forEach(function (job) {
+            jobs.data.forEach(function (job) {
                 let row = `
                     <tr>
                         <td>${job.id}</td>
@@ -248,7 +248,7 @@ function loadJob(page, size) {
 
             $("#nextPageBtn").prop("disabled", jobs.length < size);
 
-            jobs.forEach(function (job) {
+            jobs.data.forEach(function (job) {
                 let row = `
                     <tr>
                         <td>${job.id}</td>

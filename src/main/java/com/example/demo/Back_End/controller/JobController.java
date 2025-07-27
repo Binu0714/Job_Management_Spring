@@ -2,6 +2,7 @@ package com.example.demo.Back_End.controller;
 
 import com.example.demo.Back_End.dto.JobDto;
 import com.example.demo.Back_End.service.impl.JobServiceImpl;
+import com.example.demo.Back_End.util.APIResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,46 +17,84 @@ public class JobController {
     private final JobServiceImpl jobService;
 
     @PostMapping("create")
-    public void createJob(@RequestBody JobDto jobDto){
+    public ResponseEntity<APIResponse> createJob(@RequestBody JobDto jobDto){
         jobService.saveJob(jobDto);
+        return ResponseEntity.ok(new APIResponse(
+                200,
+                "Job created successfully",
+                jobDto
+        ));
     }
 
     @GetMapping("get")
-    public List<JobDto> getAllJobs() {
-        return jobService.getAllJobs();
+    public ResponseEntity<APIResponse> getAllJobs() {
+        List<JobDto> jobs = jobService.getAllJobs();
+        return ResponseEntity.ok(new APIResponse(
+            500,
+            "All Jobs Fetched Successfully",
+            jobs
+        ));
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<JobDto> getJobById(@PathVariable int id) {
+    public ResponseEntity<APIResponse> getJobById(@PathVariable int id) {
         JobDto job = jobService.getJobById(id);
-        return ResponseEntity.ok(job);
+        return ResponseEntity.ok(new APIResponse(
+                200,
+                "Job Fetched Successfully",
+                job
+        ));
     }
 
     @PutMapping("update/{id}")
-    public void updateJob(@PathVariable Integer id, @RequestBody JobDto jobDto) {
+    public ResponseEntity<APIResponse> updateJob(@PathVariable Integer id, @RequestBody JobDto jobDto) {
         jobDto.setId(id);
         jobService.updateJob(jobDto);
+        return ResponseEntity.ok(new APIResponse(
+                200,
+                "Job Updated Successfully",
+                jobDto
+        ));
     }
 
     @DeleteMapping("delete/{id}")
-    public void deleteJob(@PathVariable Integer id){
+    public ResponseEntity<APIResponse> deleteJob(@PathVariable Integer id){
         jobService.deleteJobById(id);
+        return ResponseEntity.ok(new APIResponse(
+                200,
+                "Job Deleted Successfully",
+                null
+        ));
     }
 
     @PatchMapping("status/{id}")
-    public void changeJobStatus(@PathVariable String id) {
+    public ResponseEntity<APIResponse> changeJobStatus(@PathVariable String id) {
         jobService.changeJobStatus(id);
+        return ResponseEntity.ok(new APIResponse(
+                200,
+                "Job Status Changed Successfully",
+                null
+        ));
     }
 
     @GetMapping("search/{keyword}")
-    public List<JobDto> searchJob(@PathVariable("keyword") String keyword) {
-        return jobService.getAllJobsByKeyword(keyword);
+    public ResponseEntity<APIResponse> searchJob(@PathVariable("keyword") String keyword) {
+        List<JobDto> jobs = jobService.getAllJobsByKeyword(keyword);
+        return ResponseEntity.ok(new APIResponse(
+                200,
+                "Job Fetched Successfully",
+                jobs
+        ));
     }
 
     @GetMapping("/get-paged")
-    public List<JobDto> getJobsByPage(@RequestParam int page,
-                                      @RequestParam int size) {
-        return jobService.getJobsByPage(page, size);
+    public ResponseEntity<APIResponse> getJobsByPage(@RequestParam int page, @RequestParam int size) {
+        List<JobDto> jobs = jobService.getJobsByPage(page, size);
+        return ResponseEntity.ok(new APIResponse(
+                200,
+                "Job Fetched Successfully",
+                jobs
+        ));
     }
 
 }
