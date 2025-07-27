@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    loadJobs();
     loadJob(currentPage, pageSize);
 
     $("#nextPageBtn").click(function () {
