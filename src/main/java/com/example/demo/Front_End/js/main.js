@@ -208,7 +208,7 @@ $('#searchInput').on('keyup', function () {
                             <button class="btn btn-outline-primary" onclick="editStatus(${job.id})">Deactivate</button>
                         </td>
                         <td>
-                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editJobModal" onclick="editJob(${job.id})">Edit</button>
+                            <button class="btn btn-sm btn-warning" onclick="editJob(${job.id})">Edit</button>
                             <button class="btn btn-sm btn-danger" onclick="deleteJob(${job.id})">Delete</button>
                         </td>
                     </tr>

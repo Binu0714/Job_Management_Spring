@@ -5,6 +5,7 @@ import com.example.demo.Back_End.service.impl.JobServiceImpl;
 import com.example.demo.Back_End.util.APIResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,11 +15,17 @@ import java.util.List;
 @RequestMapping("api/v2/job")
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class JobController {
     private final JobServiceImpl jobService;
 
     @PostMapping("create")
     public ResponseEntity<APIResponse> createJob(@Valid @RequestBody JobDto jobDto){
+//        log.info("INFO - job created");
+//        log.debug("DEBUG - job created");
+//        log.error("ERROR - job created");
+//        log.warn("WARN - job created");
+//        log.trace("TRACE - job created");
         jobService.saveJob(jobDto);
         return ResponseEntity.ok(new APIResponse(
                 200,
