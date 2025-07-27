@@ -24,9 +24,9 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public void saveJob(JobDto jobDto) {
-        if (jobRepository.existsById(jobDto.getId())){
-            throw new DuplicateEntryException("Job already exists");
-        }
+//        if (jobRepository.existsById(jobDto.getId())){
+//            throw new DuplicateEntryException("Job already exists");
+//        }
         jobRepository.save(modelMapper.map(jobDto, Job.class));
     }
 

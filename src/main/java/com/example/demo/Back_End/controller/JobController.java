@@ -3,6 +3,7 @@ package com.example.demo.Back_End.controller;
 import com.example.demo.Back_End.dto.JobDto;
 import com.example.demo.Back_End.service.impl.JobServiceImpl;
 import com.example.demo.Back_End.util.APIResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class JobController {
     private final JobServiceImpl jobService;
 
     @PostMapping("create")
-    public ResponseEntity<APIResponse> createJob(@RequestBody JobDto jobDto){
+    public ResponseEntity<APIResponse> createJob(@Valid @RequestBody JobDto jobDto){
         jobService.saveJob(jobDto);
         return ResponseEntity.ok(new APIResponse(
                 200,
