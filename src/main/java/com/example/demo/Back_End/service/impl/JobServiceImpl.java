@@ -53,11 +53,17 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public void deleteJobById(Integer id) {
+        if (!jobRepository.existsById(id)){
+            throw new ResourceNotFoundException("Job with ID " + id + " not found");
+        }
         jobRepository.deleteById(id);
     }
 
     @Override
     public void changeJobStatus(String id) {
+        if (!jobRepository.existsById(Integer.valueOf(id))){
+            throw new ResourceNotFoundException("Job with ID " + id + " not found");
+        }
         jobRepository.changeJobStatus(id);
     }
 
