@@ -2,6 +2,8 @@ package com.example.demo.Back_End.service.impl;
 
 import com.example.demo.Back_End.dto.JobDto;
 import com.example.demo.Back_End.entity.Job;
+import com.example.demo.Back_End.exception.DuplicateEntryException;
+import com.example.demo.Back_End.exception.ResourceNotFoundException;
 import com.example.demo.Back_End.repository.JobRepository;
 import com.example.demo.Back_End.service.JobService;
 import lombok.RequiredArgsConstructor;
@@ -22,12 +24,18 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public void saveJob(JobDto jobDto) {
+        if (jobRepository.existsById(jobDto.getId())){
+            throw new DuplicateEntryException("Job already exists");
+        }
         jobRepository.save(modelMapper.map(jobDto, Job.class));
     }
 
     @Override
     public List<JobDto> getAllJobs() {
         List<Job> allJobs = jobRepository.findAll();
+        if (allJobs.isEmpty()){
+            throw new ResourceNotFoundException("Jobs not found");
+        }
         return modelMapper.map(allJobs,new TypeToken<List<JobDto>>(){}.getType());
     }
 
